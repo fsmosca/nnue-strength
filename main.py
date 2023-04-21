@@ -23,10 +23,21 @@ pd.set_option('max_colwidth', 800)
 
 
 def nnue_eval(enginefn, epd):
-    """Find the best move with highest eval.
+    """Find the best move with highest eval using stockfish.
 
-    Run engine, setup position and send eval command.   
-    Save eval and legal moves from the given epd. 
+    Run engine, setup position plus move and send eval command.
+    Get the nnue eval only. Change WPOV to SPOV and negate the
+    eval to see the eval before making the move.
+
+    If a legal move is a checking move, don't include it in the analysis
+    as stockfish does not evaluate positions if side to move is "in check".
+
+    Args:
+      enginefn: The engine file or path/file.
+      epd: The position in epd format.
+    
+    Returns:
+       A dataframe of epd, move and score
     """
     board = chess.Board(epd)
     epds, moves, scores = [], [], []
