@@ -96,7 +96,7 @@ def nnue_eval(enginefn, epd):
 
 def main():
     max_games = 5
-    movetimesec = 1
+    movetimesec = 10
     pgnfn = r'F:\project\pgn\tatamast23.pgn'
     enginefn = r'F:\Chess\Engines\stockfish\stockfish_15.1_win_x64_popcnt\stockfish-windows-2022-x86-64-modern.exe'
     gcnt = 0
@@ -143,7 +143,7 @@ def main():
                 epds, scores, moves = [], [], []
                 top_move_is_tactical = False
                 top1_move = None
-                for i in range(min(legal_moves, board.legal_moves.count())):
+                for i in range(legal_moves):
                     score = info[i]['score'].relative.score(mate_score=32000)
                     pv = info[i]['pv']
                     move = pv[0]
