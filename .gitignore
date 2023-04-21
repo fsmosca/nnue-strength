@@ -133,3 +133,4 @@ dmypy.json
 stats.py
 tools.py
 legal_move.py
+positions.db
