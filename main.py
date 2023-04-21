@@ -215,7 +215,7 @@ def main():
 
     # Save data to csv file. Print average error in cp.
     df = pd.concat(alldf, ignore_index=True)
-    df.to_csv('data-1.csv', index=False)
+    df.to_csv('data.csv', index=False)
     print(df)
 
     df_error = df.copy()
