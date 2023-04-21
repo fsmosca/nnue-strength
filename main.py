@@ -115,6 +115,10 @@ def main():
 
     engine = chess.engine.SimpleEngine.popen_uci(enginefn)
 
+    # Configure engine.
+    engine.configure({'Hash': 256})
+    engine.configure({'Threads': 1})
+
     alldf = []
 
     with open(pgnfn) as pgn:
