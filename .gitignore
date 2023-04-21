@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.csv
+*.txt
+stats.py
+tools.py
+legal_move.py
