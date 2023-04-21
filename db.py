@@ -22,6 +22,31 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
+def is_exist(pos):
+    with Session(engine) as session:
+        epd = pos.epd
+        move = pos.move
+
+        statement = select(Analysis).where(Analysis.epd == epd).where(Analysis.move == move)
+        results = session.exec(statement)
+        return True if len(results.all()) else False
+
+
+def insert_or_ignore(pos):
+    with Session(engine) as session:
+        epd = pos.epd
+        move = pos.move
+
+        statement = select(Analysis).where(Analysis.epd == epd).where(Analysis.move == move)
+        results = session.exec(statement)
+        ana = results.all()
+
+        # Insert if not found.
+        if len(ana) <= 0:
+            session.add(pos)
+            session.commit()
+
+
 def create_pos():
     pos_1 = Analysis(epd="r1bqkbnr/pp3ppp/2n1p3/2ppP3/3P4/2P2N2/PP3PPP/RNBQKB1R b KQkq -", move="d8b6", score=-25)
     pos_2 = Analysis(epd="rnbqkb1r/pp1ppp1p/5np1/8/2PP4/2N5/PP3PPP/R1BQKBNR b KQkq -", move="d7d5", score=-17)
@@ -32,12 +57,12 @@ def create_pos():
         session.commit()
 
 
-def select_analysis():
+def select_all_analysis():
     with Session(engine) as session:
         statement = select(Analysis)
         results = session.exec(statement)
         analysis = results.all()
-        print(analysis)
+        return analysis
 
 
 def filter_analysis():
@@ -45,15 +70,22 @@ def filter_analysis():
         statement = select(Analysis).where(Analysis.epd == "r1bqkbnr/pp3ppp/2n1p3/2ppP3/3P4/2P2N2/PP3PPP/RNBQKB1R b KQkq -").where(Analysis.move == "d8b6")
         results = session.exec(statement)
         ana = results.all()
-        for r in ana:
-            print(r.epd)
+        print(ana)
+        # for r in ana:
+            # print(r.epd)
 
 
 def main():
     create_db_and_tables()
     create_pos()
-    select_analysis()
-    filter_analysis()
+
+    # filter_analysis()
+
+    pos = Analysis(epd="rnbq1rk1/pp3ppp/4pn2/2pp4/1bPP4/2NBPN2/PP3PPP/R1BQK2R w KQ -", move="e1g1", score=25)
+    insert_or_ignore(pos)
+
+    pos = select_all_analysis()
+    print(pos)
 
 
 if __name__ == "__main__":
