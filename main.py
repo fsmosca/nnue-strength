@@ -95,6 +95,7 @@ def nnue_eval(enginefn, epd):
 
 
 def main():
+    minimum_move = 20
     max_games = 5
     movetimesec = 10
     pgnfn = r'F:\project\pgn\tatamast23.pgn'
@@ -123,7 +124,6 @@ def main():
                 board = node.parent.board()
                 gmove = node.move
                 gmove_san = board.san(gmove)
-                gply = board.ply()
                 epd = board.epd()
                 fmvn = board.fullmove_number
 
@@ -132,8 +132,8 @@ def main():
                 if board.is_check():
                     continue
 
-                # Don't analyze moves below 20.
-                if gply < 40:
+                # Minimum move number to start the analysis.
+                if fmvn < minimum_move:
                     continue
 
                 legal_moves = board.legal_moves.count()
