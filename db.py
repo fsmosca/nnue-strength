@@ -7,7 +7,7 @@ class Analysis(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     epd: str
     move: str
-    score: Optional[int] = None
+    score: int
     depth: Optional[int] = None
     engname: Optional[str] = None
 
@@ -51,8 +51,8 @@ def filter_analysis():
 
 def main():
     create_db_and_tables()
-    # create_pos()
-    # select_analysis()
+    create_pos()
+    select_analysis()
     filter_analysis()
 
 
